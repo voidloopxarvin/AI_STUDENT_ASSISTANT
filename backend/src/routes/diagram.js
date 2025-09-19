@@ -61,7 +61,71 @@ Generate the appropriate Mermaid diagram code:
     });
   }
 });
+// Add to existing diagram.js file
 
+const puppeteer = require('puppeteer');
+
+// Export diagram as image
+router.post('/export', async (req, res) => {
+  try {
+    const { mermaidCode, format = 'png' } = req.body;
+
+    if (!mermaidCode) {
+      return res.status(400).json({
+        success: false,
+        error: 'Mermaid code is required'
+      });
+    }
+
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    
+    const html = `
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="mermaid">
+        ${mermaidCode}
+    </div>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</body>
+</html>
+    `;
+
+    await page.setContent(html);
+    await page.waitForSelector('.mermaid svg');
+
+    let buffer;
+    if (format === 'png') {
+      const element = await page.$('.mermaid');
+      buffer = await element.screenshot({ type: 'png' });
+    } else if (format === 'pdf') {
+      buffer = await page.pdf({ format: 'A4' });
+    }
+
+    await browser.close();
+
+    res.set({
+      'Content-Type': format === 'pdf' ? 'application/pdf' : 'image/png',
+      'Content-Disposition': `attachment; filename=diagram.${format}`
+    });
+
+    res.send(buffer);
+
+  } catch (error) {
+    console.error('Export error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to export diagram',
+      details: error.message
+    });
+  }
+});
 // Get diagram templates
 router.get('/templates', (req, res) => {
   const templates = [
