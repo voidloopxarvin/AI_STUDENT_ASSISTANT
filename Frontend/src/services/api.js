@@ -57,6 +57,18 @@ class ApiService {
       body: { code, language },
     });
   }
+  // Add this method to your existing ApiService class
+
+async generateDiagram(prompt) {
+  return this.request('/diagram/generate', {
+    method: 'POST',
+    body: { prompt },
+  });
+}
+
+async getDiagramTemplates() {
+  return this.request('/diagram/templates');
+}
 }
 
 export const apiService = new ApiService();
