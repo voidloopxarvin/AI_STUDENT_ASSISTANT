@@ -57,6 +57,27 @@ class ApiService {
       body: { code, language },
     });
   }
+  // Add these methods to your existing ApiService class
+
+async createStudyPlan(formData) {
+  return this.request('/planner/create-plan', {
+    method: 'POST',
+    body: formData,
+    // Don't set Content-Type header for FormData
+    headers: {}, // This will let browser set the correct Content-Type with boundary
+  });
+}
+
+async getStudyProgress(planId) {
+  return this.request(`/planner/progress/${planId}`);
+}
+
+async updateStudyProgress(planId, progressData) {
+  return this.request(`/planner/progress/${planId}`, {
+    method: 'POST',
+    body: progressData,
+  });
+}
   // Add this method to your existing ApiService class
 
 async generateDiagram(prompt) {
@@ -69,6 +90,26 @@ async generateDiagram(prompt) {
 async getDiagramTemplates() {
   return this.request('/diagram/templates');
 }
+// Add these methods to your existing ApiService class
+
+async reviewCode(code, language, reviewType = 'comprehensive') {
+  return this.request('/reviewer/review', {
+    method: 'POST',
+    body: { code, language, reviewType },
+  });
 }
+
+async getSupportedLanguages() {
+  return this.request('/reviewer/languages');
+}
+
+async getSuggestedCode(code, language, issueType) {
+  return this.request('/reviewer/suggest', {
+    method: 'POST',
+    body: { code, language, issueType },
+  });
+}
+}
+
 
 export const apiService = new ApiService();
