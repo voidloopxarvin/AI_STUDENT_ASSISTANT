@@ -45,6 +45,7 @@ app.use('/api/reviewer', require('./routes/reviewer'));
 app.use('/api/roadmaps', require('./routes/roadmaps'));
 // Add this line with your other route imports
 app.use('/api/chat', require('./routes/chat'));
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ 
@@ -71,8 +72,8 @@ app.get('/', (req, res) => {
   });
 });
 
-// Handle 404 for API routes
-app.use('/api/*', (req, res) => {
+// FIXED: Handle 404 for API routes - Use catch-all for /api paths
+app.use('/api', (req, res) => {
   res.status(404).json({
     success: false,
     error: 'API endpoint not found',

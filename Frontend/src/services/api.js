@@ -58,12 +58,27 @@ class ApiService {
     });
   }
 
+  async getStudyProgress(planId) {
+    return this.request(`/planner/progress/${planId}`);
+  }
+
+  async updateStudyProgress(planId, progressData) {
+    return this.request(`/planner/progress/${planId}`, {
+      method: 'POST',
+      body: progressData,
+    });
+  }
+
   // Diagram Generator methods
   async generateDiagram(prompt) {
     return this.request('/diagram/generate', {
       method: 'POST',
       body: { prompt },
     });
+  }
+
+  async getDiagramTemplates() {
+    return this.request('/diagram/templates');
   }
 
   // Code Reviewer methods
@@ -74,12 +89,23 @@ class ApiService {
     });
   }
 
+  async getSupportedLanguages() {
+    return this.request('/reviewer/languages');
+  }
+
+  async getSuggestedCode(code, language, issueType) {
+    return this.request('/reviewer/suggest', {
+      method: 'POST',
+      body: { code, language, issueType },
+    });
+  }
+
   // Roadmaps methods
   async getRoadmaps() {
     return this.request('/roadmaps');
   }
 
-  // Chat methods - FIX: Use correct endpoint
+  // Chat methods
   async sendChatMessage(message, sessionId, conversationHistory = []) {
     return this.request('/chat/message', {
       method: 'POST',
