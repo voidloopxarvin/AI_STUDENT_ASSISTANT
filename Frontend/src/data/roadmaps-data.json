@@ -1,0 +1,849 @@
+{
+  "roadmaps": [
+    {
+      "id": "fullstack",
+      "title": "Full Stack Developer",
+      "category": "development",
+      "description": "Complete journey from frontend to backend development with modern technologies",
+      "difficulty": "Intermediate",
+      "duration": "8-12 months",
+      "estimatedHours": 400,
+      "color": "from-blue-600 to-cyan-400",
+      "icon": "🌐",
+      "prerequisites": [
+        "Basic computer knowledge",
+        "Problem-solving mindset",
+        "Mathematics fundamentals"
+      ],
+      "outcomes": [
+        "Build complete web applications",
+        "Deploy applications to production",
+        "Work with databases and APIs",
+        "Collaborate with development teams",
+        "Understand software architecture"
+      ],
+      "salary": {
+        "entry": "$65,000 - $85,000",
+        "mid": "$85,000 - $120,000",
+        "senior": "$120,000 - $180,000+"
+      },
+      "jobTitles": [
+        "Full Stack Developer",
+        "Web Developer",
+        "Software Engineer",
+        "Application Developer"
+      ],
+      "sections": [
+        {
+          "id": "foundation",
+          "title": "Foundation & Prerequisites",
+          "description": "Build strong fundamentals before diving into development",
+          "duration": "2-3 weeks",
+          "steps": [
+            {
+              "id": 1,
+              "title": "Computer Science Basics",
+              "description": "Understanding how computers and the internet work",
+              "topics": [
+                "How computers work",
+                "Internet and networking basics",
+                "Client-server architecture",
+                "HTTP/HTTPS protocols",
+                "Domain names and DNS"
+              ]
+            },
+            {
+              "id": 2,
+              "title": "Development Environment Setup",
+              "description": "Setting up tools and environment for development",
+              "topics": [
+                "Code editors (VS Code)",
+                "Browser developer tools",
+                "Command line basics",
+                "Package managers",
+                "Version control introduction"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "frontend",
+          "title": "Frontend Development",
+          "description": "Master the visual and interactive aspects of web development",
+          "duration": "10-12 weeks",
+          "steps": [
+            {
+              "id": 3,
+              "title": "HTML5 - Structure",
+              "description": "Learn semantic HTML and modern web markup",
+              "topics": [
+                "HTML5 semantic elements",
+                "Forms and input validation",
+                "Accessibility (a11y)",
+                "SEO basics",
+                "HTML best practices"
+              ]
+            },
+            {
+              "id": 4,
+              "title": "CSS3 - Styling",
+              "description": "Master modern CSS including layouts and animations",
+              "topics": [
+                "CSS fundamentals and selectors",
+                "Flexbox layout system",
+                "CSS Grid layout",
+                "Responsive design principles",
+                "CSS animations and transitions",
+                "CSS preprocessors (Sass/SCSS)",
+                "CSS frameworks (Bootstrap/Tailwind)"
+              ]
+            },
+            {
+              "id": 5,
+              "title": "JavaScript - Programming Logic",
+              "description": "Core JavaScript programming and DOM manipulation",
+              "topics": [
+                "JavaScript syntax and fundamentals",
+                "Variables, data types, operators",
+                "Control structures and loops",
+                "Functions and scope",
+                "Objects and arrays",
+                "DOM manipulation",
+                "Event handling",
+                "Asynchronous JavaScript (Promises/Async-Await)",
+                "ES6+ features"
+              ]
+            },
+            {
+              "id": 6,
+              "title": "React.js - Modern Frontend",
+              "description": "Build dynamic user interfaces with React",
+              "topics": [
+                "React fundamentals and JSX",
+                "Components and props",
+                "State management with hooks",
+                "Event handling in React",
+                "Conditional rendering",
+                "Lists and keys",
+                "Forms in React",
+                "React Router for navigation",
+                "Context API for state management",
+                "Performance optimization"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "backend",
+          "title": "Backend Development",
+          "description": "Server-side programming and database management",
+          "duration": "8-10 weeks",
+          "steps": [
+            {
+              "id": 7,
+              "title": "Node.js - Server Runtime",
+              "description": "JavaScript runtime for server-side development",
+              "topics": [
+                "Node.js fundamentals",
+                "NPM package management",
+                "File system operations",
+                "HTTP module",
+                "Environment variables",
+                "Debugging Node.js applications"
+              ]
+            },
+            {
+              "id": 8,
+              "title": "Express.js - Web Framework",
+              "description": "Build robust web APIs and servers",
+              "topics": [
+                "Express.js setup and routing",
+                "Middleware functions",
+                "Request and response handling",
+                "Error handling",
+                "Security best practices",
+                "API design principles",
+                "Authentication and authorization",
+                "File uploads and processing"
+              ]
+            },
+            {
+              "id": 9,
+              "title": "Databases - Data Management",
+              "description": "Store and manage application data effectively",
+              "topics": [
+                "Database concepts (SQL vs NoSQL)",
+                "MongoDB fundamentals",
+                "Mongoose ODM",
+                "Database design and modeling",
+                "CRUD operations",
+                "Database relationships",
+                "Query optimization",
+                "Database security"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tools",
+          "title": "Development Tools & Practices",
+          "description": "Professional development workflow and tools",
+          "duration": "4-6 weeks",
+          "steps": [
+            {
+              "id": 10,
+              "title": "Version Control - Git & GitHub",
+              "description": "Manage code versions and collaborate with teams",
+              "topics": [
+                "Git fundamentals and commands",
+                "Repository management",
+                "Branching and merging strategies",
+                "GitHub workflow",
+                "Pull requests and code reviews",
+                "Collaboration best practices"
+              ]
+            },
+            {
+              "id": 11,
+              "title": "Testing - Code Quality",
+              "description": "Write reliable code with comprehensive testing",
+              "topics": [
+                "Testing fundamentals",
+                "Unit testing with Jest",
+                "Integration testing",
+                "API testing",
+                "Test-driven development (TDD)",
+                "Code coverage"
+              ]
+            },
+            {
+              "id": 12,
+              "title": "Deployment & DevOps",
+              "description": "Deploy applications to production environments",
+              "topics": [
+                "Deployment strategies",
+                "Cloud platforms (Heroku, Vercel, AWS)",
+                "Environment management",
+                "CI/CD pipelines",
+                "Monitoring and logging",
+                "Performance optimization"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "frontend",
+      "title": "Frontend Developer",
+      "category": "development",
+      "description": "Specialize in creating beautiful, responsive, and interactive user interfaces",
+      "difficulty": "Beginner",
+      "duration": "4-6 months",
+      "estimatedHours": 250,
+      "color": "from-emerald-600 to-teal-400",
+      "icon": "🎨",
+      "prerequisites": [
+        "Basic computer skills",
+        "Creative mindset",
+        "Attention to detail"
+      ],
+      "outcomes": [
+        "Create responsive web designs",
+        "Build interactive user interfaces",
+        "Optimize web performance",
+        "Implement modern design systems"
+      ],
+      "salary": {
+        "entry": "$55,000 - $75,000",
+        "mid": "$75,000 - $100,000",
+        "senior": "$100,000 - $150,000+"
+      },
+      "jobTitles": [
+        "Frontend Developer",
+        "UI Developer",
+        "Web Developer",
+        "React Developer"
+      ],
+      "sections": [
+        {
+          "id": "fundamentals",
+          "title": "Web Fundamentals",
+          "description": "Master the core technologies of web development",
+          "duration": "6-8 weeks",
+          "steps": [
+            {
+              "id": 1,
+              "title": "HTML5 Mastery",
+              "description": "Semantic markup and modern HTML features",
+              "topics": [
+                "Semantic HTML elements",
+                "Forms and validation",
+                "Accessibility standards",
+                "SEO optimization",
+                "HTML5 APIs",
+                "Meta tags and social sharing",
+                "Performance considerations"
+              ]
+            },
+            {
+              "id": 2,
+              "title": "CSS3 Advanced",
+              "description": "Modern styling techniques and layouts",
+              "topics": [
+                "Advanced selectors and specificity",
+                "Flexbox layout mastery",
+                "CSS Grid comprehensive guide",
+                "Animations and transitions",
+                "Responsive design patterns",
+                "CSS architecture (BEM, OOCSS)",
+                "Custom properties and variables",
+                "CSS-in-JS concepts"
+              ]
+            },
+            {
+              "id": 3,
+              "title": "JavaScript Essentials",
+              "description": "Core JavaScript for frontend development",
+              "topics": [
+                "ES6+ syntax and features",
+                "DOM manipulation and traversal",
+                "Event handling and delegation",
+                "Async programming patterns",
+                "Module systems",
+                "Browser APIs",
+                "Performance optimization",
+                "Debugging techniques"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "frameworks",
+          "title": "Modern Frameworks & Libraries",
+          "description": "Learn popular frontend frameworks and libraries",
+          "duration": "8-10 weeks",
+          "steps": [
+            {
+              "id": 4,
+              "title": "React.js Ecosystem",
+              "description": "Build dynamic user interfaces with React",
+              "topics": [
+                "Components and JSX syntax",
+                "Props and state management",
+                "React Hooks (useState, useEffect, useContext)",
+                "Event handling patterns",
+                "Conditional rendering strategies",
+                "Lists and key optimization",
+                "Form handling and validation",
+                "React Router for SPA navigation"
+              ]
+            },
+            {
+              "id": 5,
+              "title": "State Management",
+              "description": "Manage complex application state effectively",
+              "topics": [
+                "Context API patterns",
+                "Redux Toolkit modern approach",
+                "Zustand lightweight solution",
+                "React Query for server state",
+                "Local vs global state decisions",
+                "State normalization",
+                "Performance optimizations"
+              ]
+            },
+            {
+              "id": 6,
+              "title": "UI/UX Implementation",
+              "description": "Create polished user interfaces",
+              "topics": [
+                "Component libraries (Material-UI, Chakra)",
+                "CSS frameworks (Tailwind CSS)",
+                "Design system implementation",
+                "Responsive design best practices",
+                "Animation libraries (Framer Motion)",
+                "Icon systems and SVG optimization",
+                "Accessibility implementation"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tools",
+          "title": "Development Tools & Workflow",
+          "description": "Professional frontend development practices",
+          "duration": "4-6 weeks",
+          "steps": [
+            {
+              "id": 7,
+              "title": "Build Tools & Bundlers",
+              "description": "Modern development workflow setup",
+              "topics": [
+                "Vite for fast development",
+                "Webpack configuration basics",
+                "Package.json and dependency management",
+                "Hot module replacement",
+                "Code splitting strategies",
+                "Environment variables setup",
+                "Build optimization techniques"
+              ]
+            },
+            {
+              "id": 8,
+              "title": "Testing & Quality Assurance",
+              "description": "Ensure code reliability and quality",
+              "topics": [
+                "Unit testing with Jest",
+                "Component testing with React Testing Library",
+                "End-to-end testing with Cypress",
+                "Visual regression testing",
+                "Code linting with ESLint",
+                "Code formatting with Prettier",
+                "Pre-commit hooks setup"
+              ]
+            },
+            {
+              "id": 9,
+              "title": "Performance & Optimization",
+              "description": "Create fast and efficient web applications",
+              "topics": [
+                "Core Web Vitals optimization",
+                "Image optimization techniques",
+                "Code splitting and lazy loading",
+                "Bundle analysis and optimization",
+                "Caching strategies",
+                "Progressive Web App features",
+                "SEO for single-page applications"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-ml",
+      "title": "AI & Machine Learning Engineer",
+      "category": "data",
+      "description": "Master artificial intelligence, machine learning, and data science",
+      "difficulty": "Advanced",
+      "duration": "10-15 months",
+      "estimatedHours": 600,
+      "color": "from-purple-600 to-pink-400",
+      "icon": "🤖",
+      "prerequisites": [
+        "Python programming",
+        "Statistics and probability",
+        "Linear algebra",
+        "Calculus basics"
+      ],
+      "outcomes": [
+        "Build machine learning models",
+        "Deploy AI applications",
+        "Analyze complex datasets",
+        "Create intelligent systems"
+      ],
+      "salary": {
+        "entry": "$95,000 - $130,000",
+        "mid": "$130,000 - $180,000",
+        "senior": "$180,000 - $300,000+"
+      },
+      "jobTitles": [
+        "Machine Learning Engineer",
+        "Data Scientist",
+        "AI Engineer",
+        "Research Scientist"
+      ],
+      "sections": [
+        {
+          "id": "foundations",
+          "title": "Mathematical Foundations",
+          "description": "Build strong mathematical foundations for AI/ML",
+          "duration": "8-10 weeks",
+          "steps": [
+            {
+              "id": 1,
+              "title": "Statistics & Probability",
+              "description": "Statistical concepts essential for machine learning",
+              "topics": [
+                "Descriptive statistics",
+                "Probability distributions",
+                "Hypothesis testing",
+                "Bayesian thinking",
+                "Statistical inference",
+                "Confidence intervals",
+                "Correlation and causation"
+              ]
+            },
+            {
+              "id": 2,
+              "title": "Linear Algebra",
+              "description": "Mathematical foundation for ML algorithms",
+              "topics": [
+                "Vectors and matrices",
+                "Linear transformations",
+                "Eigenvalues and eigenvectors",
+                "Matrix decomposition",
+                "Optimization techniques",
+                "Principal Component Analysis",
+                "Singular Value Decomposition"
+              ]
+            },
+            {
+              "id": 3,
+              "title": "Calculus for ML",
+              "description": "Calculus concepts for optimization",
+              "topics": [
+                "Derivatives and gradients",
+                "Partial derivatives",
+                "Chain rule",
+                "Gradient descent",
+                "Optimization algorithms",
+                "Lagrange multipliers"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "programming",
+          "title": "Programming for AI/ML",
+          "description": "Master programming tools and libraries",
+          "duration": "10-12 weeks",
+          "steps": [
+            {
+              "id": 4,
+              "title": "Python for Data Science",
+              "description": "Python programming for AI/ML applications",
+              "topics": [
+                "NumPy for numerical computing",
+                "Pandas for data manipulation",
+                "Matplotlib/Seaborn for visualization",
+                "Jupyter notebooks mastery",
+                "Python virtual environments",
+                "Object-oriented programming",
+                "Error handling and debugging"
+              ]
+            },
+            {
+              "id": 5,
+              "title": "Data Processing & Analysis",
+              "description": "Clean and analyze datasets effectively",
+              "topics": [
+                "Data cleaning techniques",
+                "Handling missing values",
+                "Feature engineering",
+                "Data transformation",
+                "Exploratory data analysis",
+                "Statistical data analysis",
+                "Data validation methods"
+              ]
+            },
+            {
+              "id": 6,
+              "title": "Machine Learning Algorithms",
+              "description": "Core ML algorithms and techniques",
+              "topics": [
+                "Supervised learning algorithms",
+                "Unsupervised learning methods",
+                "Regression techniques",
+                "Classification algorithms",
+                "Clustering methods",
+                "Decision trees and random forests",
+                "Support vector machines",
+                "k-Nearest neighbors"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "advanced",
+          "title": "Advanced AI/ML Concepts",
+          "description": "Deep learning and advanced techniques",
+          "duration": "12-16 weeks",
+          "steps": [
+            {
+              "id": 7,
+              "title": "Deep Learning Fundamentals",
+              "description": "Neural networks and deep learning",
+              "topics": [
+                "Artificial neural networks",
+                "Backpropagation algorithm",
+                "Activation functions",
+                "Loss functions and optimization",
+                "Regularization techniques",
+                "Batch normalization",
+                "Dropout and overfitting prevention"
+              ]
+            },
+            {
+              "id": 8,
+              "title": "Deep Learning Frameworks",
+              "description": "TensorFlow and PyTorch mastery",
+              "topics": [
+                "TensorFlow/Keras fundamentals",
+                "PyTorch basics",
+                "Model building and training",
+                "Custom layers and models",
+                "Transfer learning",
+                "Model deployment",
+                "GPU acceleration"
+              ]
+            },
+            {
+              "id": 9,
+              "title": "Specialized ML Domains",
+              "description": "Computer vision and NLP applications",
+              "topics": [
+                "Convolutional neural networks (CNNs)",
+                "Recurrent neural networks (RNNs)",
+                "Long Short-Term Memory (LSTM)",
+                "Transformer architecture",
+                "Computer vision techniques",
+                "Natural language processing",
+                "Generative models"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "deployment",
+          "title": "ML Engineering & Deployment",
+          "description": "Production-ready ML systems",
+          "duration": "8-10 weeks",
+          "steps": [
+            {
+              "id": 10,
+              "title": "Model Evaluation & Validation",
+              "description": "Assess model performance effectively",
+              "topics": [
+                "Cross-validation techniques",
+                "Performance metrics",
+                "Bias-variance tradeoff",
+                "Model selection methods",
+                "Hyperparameter tuning",
+                "A/B testing for ML",
+                "Model interpretability"
+              ]
+            },
+            {
+              "id": 11,
+              "title": "MLOps & Production Deployment",
+              "description": "Deploy and maintain ML models",
+              "topics": [
+                "Model versioning",
+                "CI/CD for ML pipelines",
+                "Model monitoring",
+                "Docker containerization",
+                "Cloud deployment (AWS, GCP, Azure)",
+                "API development for models",
+                "Scalability considerations"
+              ]
+            },
+            {
+              "id": 12,
+              "title": "Ethics & Responsible AI",
+              "description": "Ethical considerations in AI development",
+              "topics": [
+                "Bias detection and mitigation",
+                "Fairness in ML models",
+                "Privacy and data protection",
+                "Explainable AI techniques",
+                "Ethical AI frameworks",
+                "Legal considerations",
+                "Social impact assessment"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cybersecurity",
+      "title": "Cybersecurity Specialist",
+      "category": "security",
+      "description": "Comprehensive cybersecurity and ethical hacking path",
+      "difficulty": "Advanced",
+      "duration": "6-10 months",
+      "estimatedHours": 350,
+      "color": "from-red-600 to-orange-400",
+      "icon": "🛡️",
+      "prerequisites": [
+        "Networking basics",
+        "Operating systems knowledge",
+        "Programming fundamentals",
+        "System administration"
+      ],
+      "outcomes": [
+        "Conduct security audits",
+        "Implement security protocols",
+        "Perform penetration testing",
+        "Incident response management"
+      ],
+      "salary": {
+        "entry": "$75,000 - $95,000",
+        "mid": "$95,000 - $130,000",
+        "senior": "$130,000 - $200,000+"
+      },
+      "jobTitles": [
+        "Cybersecurity Analyst",
+        "Penetration Tester",
+        "Security Engineer",
+        "Information Security Specialist"
+      ],
+      "sections": [
+        {
+          "id": "fundamentals",
+          "title": "Security Fundamentals",
+          "description": "Core cybersecurity concepts and principles",
+          "duration": "6-8 weeks",
+          "steps": [
+            {
+              "id": 1,
+              "title": "Information Security Principles",
+              "description": "CIA triad and security frameworks",
+              "topics": [
+                "Confidentiality, Integrity, Availability",
+                "Risk management principles",
+                "Security policies and procedures",
+                "Compliance frameworks (ISO 27001, NIST)",
+                "Threat modeling",
+                "Security governance",
+                "Business continuity planning"
+              ]
+            },
+            {
+              "id": 2,
+              "title": "Network Security Basics",
+              "description": "Securing network infrastructure",
+              "topics": [
+                "TCP/IP security considerations",
+                "Firewalls and network segmentation",
+                "VPNs and secure communications",
+                "Network monitoring and analysis",
+                "Intrusion detection systems",
+                "Network access control",
+                "Wireless security protocols"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mobile-dev",
+      "title": "Mobile App Developer",
+      "category": "mobile",
+      "description": "Cross-platform mobile development with modern frameworks",
+      "difficulty": "Intermediate",
+      "duration": "6-8 months",
+      "estimatedHours": 320,
+      "color": "from-indigo-600 to-purple-400",
+      "icon": "📱",
+      "prerequisites": [
+        "JavaScript knowledge",
+        "React basics",
+        "Mobile app concepts",
+        "UI/UX principles"
+      ],
+      "outcomes": [
+        "Build native mobile apps",
+        "Publish to app stores",
+        "Cross-platform development",
+        "Mobile UI/UX mastery"
+      ],
+      "salary": {
+        "entry": "$70,000 - $90,000",
+        "mid": "$90,000 - $125,000",
+        "senior": "$125,000 - $170,000+"
+      },
+      "jobTitles": [
+        "Mobile App Developer",
+        "React Native Developer",
+        "iOS Developer",
+        "Android Developer"
+      ],
+      "sections": [
+        {
+          "id": "foundations",
+          "title": "Mobile Development Foundations",
+          "description": "Core concepts for mobile app development",
+          "duration": "4-6 weeks",
+          "steps": [
+            {
+              "id": 1,
+              "title": "Mobile App Fundamentals",
+              "description": "Understanding mobile platforms and ecosystems",
+              "topics": [
+                "iOS vs Android differences",
+                "Mobile app lifecycle",
+                "Platform design guidelines",
+                "App store requirements",
+                "Mobile development approaches",
+                "Native vs hybrid vs cross-platform",
+                "Performance considerations"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "data-science",
+      "title": "Data Scientist",
+      "category": "data",
+      "description": "Complete data science journey from basics to advanced analytics",
+      "difficulty": "Intermediate",
+      "duration": "8-12 months",
+      "estimatedHours": 450,
+      "color": "from-yellow-600 to-orange-400",
+      "icon": "📊",
+      "prerequisites": [
+        "Statistics basics",
+        "Programming fundamentals",
+        "Mathematics knowledge",
+        "Critical thinking skills"
+      ],
+      "outcomes": [
+        "Analyze complex datasets",
+        "Build predictive models",
+        "Generate data-driven insights",
+        "Create compelling visualizations"
+      ],
+      "salary": {
+        "entry": "$85,000 - $110,000",
+        "mid": "$110,000 - $150,000",
+        "senior": "$150,000 - $250,000+"
+      },
+      "jobTitles": [
+        "Data Scientist",
+        "Data Analyst",
+        "Business Intelligence Analyst",
+        "Quantitative Analyst"
+      ],
+      "sections": [
+        {
+          "id": "foundations",
+          "title": "Data Science Foundations",
+          "description": "Core skills for data science",
+          "duration": "8-10 weeks",
+          "steps": [
+            {
+              "id": 1,
+              "title": "Statistics for Data Science",
+              "description": "Statistical methods and data analysis",
+              "topics": [
+                "Descriptive and inferential statistics",
+                "Probability theory",
+                "Hypothesis testing",
+                "Statistical significance",
+                "Correlation and regression",
+                "ANOVA and chi-square tests",
+                "Bayesian statistics"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

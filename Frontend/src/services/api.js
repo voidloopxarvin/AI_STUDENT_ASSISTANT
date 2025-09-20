@@ -69,16 +69,46 @@ class ApiService {
     });
   }
 
-  // Diagram Generator methods
+  // Diagram Generator methods - Fixed version
   async generateDiagram(prompt) {
-    return this.request('/diagram/generate', {
-      method: 'POST',
-      body: { prompt },
-    });
+    if (!prompt || !prompt.trim()) {
+      throw new Error('Prompt is required');
+    }
+
+    try {
+      const response = await this.request('/diagram/generate', {
+        method: 'POST',
+        body: { prompt: prompt.trim() },
+      });
+
+      if (!response) {
+        throw new Error('No response received');
+      }
+
+      if (response.success === false) {
+        throw new Error(response.error || 'Unknown error occurred');
+      }
+
+      if (!response.mermaidCode) {
+        throw new Error('No mermaid code in response');
+      }
+
+      return response;
+    } catch (error) {
+      console.error('Generate diagram error:', error);
+      throw error;
+    }
   }
 
   async getDiagramTemplates() {
     return this.request('/diagram/templates');
+  }
+
+  async exportDiagram(mermaidCode, format = 'png') {
+    return this.request('/diagram/export', {
+      method: 'POST',
+      body: { mermaidCode, format },
+    });
   }
 
   // Code Reviewer methods

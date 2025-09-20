@@ -1,136 +1,219 @@
 import React, { useEffect, useState } from 'react';
-import { Map, ArrowDown, ArrowRight, CheckCircle, Circle } from 'lucide-react';
-import { apiService } from '../services/api';
+import { Map, Clock, DollarSign, ArrowLeft, ChevronRight, CheckCircle, Star, Briefcase, Trophy, BookOpen, Target, Zap } from 'lucide-react';
+import roadmapsData from '../data/roadmaps-data.json'; // Import the JSON data
 
 const RoadmapsPage = () => {
-  const [roadmaps, setRoadmaps] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [selectedRoadmap, setSelectedRoadmap] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [roadmaps, setRoadmaps] = useState([]);
 
   useEffect(() => {
-    const loadRoadmaps = async () => {
-      try {
-        setLoading(true);
-        const response = await apiService.getRoadmaps();
-        console.log('Loaded roadmaps:', response);
-        setRoadmaps(response.roadmaps || []);
-      } catch (error) {
-        console.error('Failed to load roadmaps:', error);
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadRoadmaps();
+    // Use local JSON data
+    setRoadmaps(roadmapsData.roadmaps);
   }, []);
 
   const getDifficultyColor = (difficulty) => {
     switch (difficulty) {
-      case 'Beginner': return 'text-green-600 bg-green-50 border-green-200';
-      case 'Intermediate': return 'text-yellow-600 bg-yellow-50 border-yellow-200';
-      case 'Advanced': return 'text-red-600 bg-red-50 border-red-200';
-      default: return 'text-gray-600 bg-gray-50 border-gray-200';
+      case 'Beginner': return 'text-emerald-400 bg-emerald-900/30 border-emerald-400/30';
+      case 'Intermediate': return 'text-amber-400 bg-amber-900/30 border-amber-400/30';
+      case 'Advanced': return 'text-red-400 bg-red-900/30 border-red-400/30';
+      default: return 'text-gray-400 bg-gray-800/30 border-gray-400/30';
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 p-6">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading roadmaps...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gray-50 p-6">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-            <strong>Error:</strong> {error}
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const filteredRoadmaps = selectedCategory === 'all' 
+    ? roadmaps 
+    : roadmaps.filter(roadmap => roadmap.category === selectedCategory);
 
   if (selectedRoadmap) {
     return (
-      <div className="min-h-screen bg-gray-50 p-6">
-        <div className="max-w-4xl mx-auto">
-          {/* Back Button */}
-          <button
-            onClick={() => setSelectedRoadmap(null)}
-            className="mb-6 flex items-center text-blue-600 hover:text-blue-800"
-          >
-            ← Back to Roadmaps
-          </button>
-
-          {/* Roadmap Header */}
-          <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
-            <h1 className="text-3xl font-bold mb-2">{selectedRoadmap.title}</h1>
-            <p className="text-gray-600 mb-4">{selectedRoadmap.description}</p>
-            <div className="flex flex-wrap gap-4 text-sm">
-              <span className={`px-3 py-1 rounded-full border ${getDifficultyColor(selectedRoadmap.difficulty)}`}>
-                {selectedRoadmap.difficulty}
-              </span>
-              <span className="text-gray-600">⏱️ {selectedRoadmap.duration}</span>
-              <span className="text-gray-600">📚 {selectedRoadmap.estimatedHours}h total</span>
-            </div>
-          </div>
-
-          {/* Learning Path */}
-          <div className="bg-white rounded-lg shadow-sm border p-6">
-            <h2 className="text-xl font-bold mb-6">Learning Path</h2>
+      <div className="min-h-screen bg-black text-white">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-gray-900 to-black border-b border-gray-800">
+          <div className="max-w-7xl mx-auto px-6 py-4">
+            <button
+              onClick={() => setSelectedRoadmap(null)}
+              className="flex items-center text-blue-400 hover:text-blue-300 transition-colors mb-4"
+            >
+              <ArrowLeft className="w-5 h-5 mr-2" />
+              Back to Roadmaps
+            </button>
             
-            <div className="space-y-6">
-              {selectedRoadmap.skills.map((skill, index) => (
-                <div key={index} className="flex items-start">
-                  <div className="flex-shrink-0 mr-4">
-                    <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
-                      {index + 1}
-                    </div>
-                    {index < selectedRoadmap.skills.length - 1 && (
-                      <div className="w-px h-12 bg-gray-300 ml-4 mt-2"></div>
-                    )}
-                  </div>
-                  <div className="flex-grow">
-                    <h3 className="font-semibold text-lg text-gray-900">{skill}</h3>
-                    <p className="text-gray-600 text-sm mt-1">
-                      Master the fundamentals of {skill.toLowerCase()}
-                    </p>
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <div className="flex items-center mb-3">
+                  <span className="text-4xl mr-4">{selectedRoadmap.icon}</span>
+                  <div>
+                    <h1 className="text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                      {selectedRoadmap.title}
+                    </h1>
+                    <p className="text-xl text-gray-400 mt-2">{selectedRoadmap.description}</p>
                   </div>
                 </div>
-              ))}
+                
+                <div className="flex flex-wrap gap-4 mb-6">
+                  <div className={`px-4 py-2 rounded-full border ${getDifficultyColor(selectedRoadmap.difficulty)}`}>
+                    <Target className="w-4 h-4 inline mr-2" />
+                    {selectedRoadmap.difficulty}
+                  </div>
+                  <div className="px-4 py-2 bg-blue-900/30 text-blue-400 rounded-full border border-blue-400/30">
+                    <Clock className="w-4 h-4 inline mr-2" />
+                    {selectedRoadmap.duration}
+                  </div>
+                  <div className="px-4 py-2 bg-purple-900/30 text-purple-400 rounded-full border border-purple-400/30">
+                    <Zap className="w-4 h-4 inline mr-2" />
+                    {selectedRoadmap.estimatedHours}h total
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            {/* Sidebar */}
+            <div className="lg:col-span-1 space-y-6">
+              {/* Prerequisites */}
+              <div className="bg-gray-900/50 rounded-xl p-6 border border-gray-800">
+                <h3 className="text-lg font-semibold mb-4 text-amber-400 flex items-center">
+                  <BookOpen className="w-5 h-5 mr-2" />
+                  Prerequisites
+                </h3>
+                <ul className="space-y-2">
+                  {selectedRoadmap.prerequisites?.map((prereq, index) => (
+                    <li key={index} className="text-gray-300 text-sm flex items-start">
+                      <CheckCircle className="w-4 h-4 text-emerald-400 mr-2 mt-0.5 flex-shrink-0" />
+                      {prereq}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Career Info */}
+              <div className="bg-gray-900/50 rounded-xl p-6 border border-gray-800">
+                <h3 className="text-lg font-semibold mb-4 text-green-400 flex items-center">
+                  <DollarSign className="w-5 h-5 mr-2" />
+                  Salary Range
+                </h3>
+                <div className="space-y-2">
+                  <div className="text-sm">
+                    <span className="text-gray-400">Entry:</span>
+                    <span className="text-white ml-2">{selectedRoadmap.salary?.entry}</span>
+                  </div>
+                  <div className="text-sm">
+                    <span className="text-gray-400">Mid-level:</span>
+                    <span className="text-white ml-2">{selectedRoadmap.salary?.mid}</span>
+                  </div>
+                  <div className="text-sm">
+                    <span className="text-gray-400">Senior:</span>
+                    <span className="text-white ml-2">{selectedRoadmap.salary?.senior}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Job Titles */}
+              <div className="bg-gray-900/50 rounded-xl p-6 border border-gray-800">
+                <h3 className="text-lg font-semibold mb-4 text-blue-400 flex items-center">
+                  <Briefcase className="w-5 h-5 mr-2" />
+                  Job Titles
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {selectedRoadmap.jobTitles?.map((title, index) => (
+                    <span key={index} className="px-3 py-1 bg-blue-900/30 text-blue-300 rounded-full text-xs border border-blue-400/20">
+                      {title}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Learning Outcomes */}
+              <div className="bg-gray-900/50 rounded-xl p-6 border border-gray-800">
+                <h3 className="text-lg font-semibold mb-4 text-purple-400 flex items-center">
+                  <Trophy className="w-5 h-5 mr-2" />
+                  What You'll Learn
+                </h3>
+                <ul className="space-y-2">
+                  {selectedRoadmap.outcomes?.map((outcome, index) => (
+                    <li key={index} className="text-gray-300 text-sm flex items-start">
+                      <Star className="w-4 h-4 text-purple-400 mr-2 mt-0.5 flex-shrink-0" />
+                      {outcome}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
-            {/* Prerequisites */}
-            {selectedRoadmap.prerequisites && selectedRoadmap.prerequisites.length > 0 && (
-              <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                <h3 className="font-semibold text-yellow-800 mb-2">Prerequisites:</h3>
-                <ul className="text-yellow-700 text-sm space-y-1">
-                  {selectedRoadmap.prerequisites.map((prereq, index) => (
-                    <li key={index}>• {prereq}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            {/* Main Content - Learning Path */}
+            <div className="lg:col-span-3">
+              <h2 className="text-2xl font-bold mb-8 text-center bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Complete Learning Path
+              </h2>
 
-            {/* Learning Outcomes */}
-            {selectedRoadmap.outcomes && selectedRoadmap.outcomes.length > 0 && (
-              <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                <h3 className="font-semibold text-green-800 mb-2">What You'll Learn:</h3>
-                <ul className="text-green-700 text-sm space-y-1">
-                  {selectedRoadmap.outcomes.map((outcome, index) => (
-                    <li key={index}>✓ {outcome}</li>
-                  ))}
-                </ul>
+              {/* Sections */}
+              <div className="space-y-8">
+                {selectedRoadmap.sections?.map((section, sectionIndex) => (
+                  <div key={section.id} className="relative">
+                    {/* Section Header */}
+                    <div className="flex items-center mb-6">
+                      <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm mr-4">
+                        {sectionIndex + 1}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-xl font-bold text-white">{section.title}</h3>
+                        <p className="text-gray-400 text-sm">{section.description}</p>
+                        <span className="text-xs text-blue-400 bg-blue-900/30 px-2 py-1 rounded-full border border-blue-400/20 mt-2 inline-block">
+                          {section.duration}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Steps */}
+                    <div className="ml-4 border-l-2 border-gray-700 pl-8 space-y-6 relative">
+                      {section.steps?.map((step, stepIndex) => (
+                        <div key={step.id} className="relative bg-gray-900/30 rounded-xl p-6 border border-gray-800 hover:border-gray-700 transition-all">
+                          {/* Step Number Circle */}
+                          <div className="absolute -left-12 top-8 w-6 h-6 bg-gray-800 border-2 border-blue-500 rounded-full flex items-center justify-center">
+                            <span className="text-xs text-blue-400 font-bold">{step.id}</span>
+                          </div>
+                          
+                          {/* Step Content */}
+                          <div>
+                            <h4 className="text-lg font-semibold text-white mb-2">{step.title}</h4>
+                            <p className="text-gray-400 text-sm mb-4">{step.description}</p>
+                            
+                            {/* Topics */}
+                            {step.topics && step.topics.length > 0 && (
+                              <div>
+                                <h5 className="text-sm font-semibold text-gray-300 mb-3">Key Topics:</h5>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                  {step.topics.map((topic, topicIndex) => (
+                                    <div key={topicIndex} className="flex items-center text-sm text-gray-400">
+                                      <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2"></div>
+                                      {topic}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
-            )}
+
+              {/* Completion Message */}
+              <div className="mt-12 text-center bg-gradient-to-r from-green-900/30 to-emerald-900/30 rounded-xl p-8 border border-green-400/20">
+                <Trophy className="w-16 h-16 text-green-400 mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-green-400 mb-2">Congratulations!</h3>
+                <p className="text-gray-300">
+                  Upon completing this roadmap, you'll be ready to work as a {selectedRoadmap.title}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -138,69 +221,140 @@ const RoadmapsPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center mb-4">
-            <Map className="w-8 h-8 text-blue-600 mr-3" />
-            <h1 className="text-3xl font-bold text-gray-900">Career Roadmaps</h1>
+    <div className="min-h-screen bg-black text-white">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-b from-gray-900 to-black">
+        <div className="max-w-7xl mx-auto px-6 py-16 text-center">
+          <div className="flex items-center justify-center mb-6">
+            <Map className="w-12 h-12 text-blue-400 mr-4" />
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-400 bg-clip-text text-transparent">
+              Career Roadmaps
+            </h1>
           </div>
-          <p className="text-lg text-gray-600">
-            Choose your path and see the complete learning journey
+          <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+            Comprehensive learning paths crafted by industry experts. Choose your destination and follow the proven route to success.
           </p>
+          
+          {/* Stats */}
+          <div className="flex justify-center space-x-12 mt-12">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-blue-400">200K+</div>
+              <div className="text-gray-500 text-sm">Students</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-green-400">15+</div>
+              <div className="text-gray-500 text-sm">Career Paths</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-400">95%</div>
+              <div className="text-gray-500 text-sm">Success Rate</div>
+            </div>
+          </div>
         </div>
+      </div>
 
-        {/* Roadmaps Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {roadmaps.map((roadmap) => (
-            <div
-              key={roadmap.id}
-              className="bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow cursor-pointer"
-              onClick={() => setSelectedRoadmap(roadmap)}
-            >
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 text-gray-900">{roadmap.title}</h3>
-                <p className="text-gray-600 mb-4 text-sm">{roadmap.description}</p>
-                
-                <div className="flex items-center justify-between mb-4">
-                  <span className={`px-2 py-1 rounded text-xs font-medium border ${getDifficultyColor(roadmap.difficulty)}`}>
-                    {roadmap.difficulty}
-                  </span>
-                  <span className="text-xs text-gray-500">{roadmap.duration}</span>
-                </div>
+      {/* Filter Section */}
+      <div className="bg-gray-900/50 border-y border-gray-800">
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <div className="flex justify-center">
+            <div className="flex space-x-4 bg-gray-800/50 rounded-full p-2">
+              {['all', 'development', 'data', 'security', 'mobile'].map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-6 py-2 rounded-full font-medium transition-all ${
+                    selectedCategory === category
+                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25'
+                      : 'text-gray-400 hover:text-white hover:bg-gray-700'
+                  }`}
+                >
+                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
 
-                <div className="mb-4">
-                  <div className="text-xs text-gray-500 mb-2">Learning Path:</div>
-                  <div className="space-y-2">
-                    {roadmap.skills.slice(0, 4).map((skill, index) => (
-                      <div key={index} className="flex items-center text-sm text-gray-700">
-                        <div className="w-4 h-4 rounded-full border-2 border-blue-300 mr-2 flex items-center justify-center">
-                          <div className="w-1.5 h-1.5 rounded-full bg-blue-600"></div>
-                        </div>
-                        {skill}
-                      </div>
-                    ))}
-                    {roadmap.skills.length > 4 && (
-                      <div className="text-xs text-gray-500 ml-6">
-                        +{roadmap.skills.length - 4} more steps
-                      </div>
-                    )}
+      {/* Roadmaps Grid */}
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        {filteredRoadmaps.length === 0 ? (
+          <div className="text-center py-16">
+            <BookOpen className="w-24 h-24 text-gray-600 mx-auto mb-6" />
+            <p className="text-xl text-gray-500">No roadmaps found for this category.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredRoadmaps.map((roadmap) => (
+              <div
+                key={roadmap.id}
+                className="group bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl overflow-hidden border border-gray-700 hover:border-gray-600 transition-all duration-300 cursor-pointer hover:scale-105"
+                onClick={() => setSelectedRoadmap(roadmap)}
+              >
+                {/* Card Header */}
+                <div className={`bg-gradient-to-r ${roadmap.color} p-6 relative overflow-hidden`}>
+                  <div className="absolute inset-0 bg-black/20"></div>
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-4xl">{roadmap.icon}</span>
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium border backdrop-blur-sm ${getDifficultyColor(roadmap.difficulty)}`}>
+                        {roadmap.difficulty}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">{roadmap.title}</h3>
+                    <p className="text-white/90 text-sm">{roadmap.description}</p>
                   </div>
                 </div>
 
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded text-sm font-medium transition-colors">
-                  View Roadmap →
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+                {/* Card Content */}
+                <div className="p-6">
+                  {/* Stats */}
+                  <div className="flex justify-between mb-6 text-sm">
+                    <div className="flex items-center text-gray-400">
+                      <Clock className="w-4 h-4 mr-1" />
+                      {roadmap.duration}
+                    </div>
+                    <div className="flex items-center text-gray-400">
+                      <Zap className="w-4 h-4 mr-1" />
+                      {roadmap.estimatedHours}h
+                    </div>
+                  </div>
 
-        {roadmaps.length === 0 && (
-          <div className="text-center py-12">
-            <Map className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <p className="text-xl text-gray-500">No roadmaps available yet.</p>
+                  {/* Salary Range */}
+                  <div className="mb-6">
+                    <div className="text-xs text-gray-500 mb-2">Salary Range</div>
+                    <div className="text-green-400 font-semibold text-sm">{roadmap.salary?.entry}</div>
+                    <div className="text-xs text-gray-400">to {roadmap.salary?.senior}</div>
+                  </div>
+
+                  {/* Learning Path Preview */}
+                  <div className="mb-6">
+                    <div className="text-xs text-gray-500 mb-3">Learning Path</div>
+                    <div className="space-y-2">
+                      {roadmap.sections?.slice(0, 3).map((section, index) => (
+                        <div key={section.id} className="flex items-center text-sm">
+                          <div className="w-5 h-5 rounded border-2 border-blue-500/30 flex items-center justify-center mr-3">
+                            <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                          </div>
+                          <span className="text-gray-300">{section.title}</span>
+                        </div>
+                      ))}
+                      {roadmap.sections?.length > 3 && (
+                        <div className="text-xs text-gray-500 ml-8">
+                          +{roadmap.sections.length - 3} more sections
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Action Button */}
+                  <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 px-4 rounded-lg font-medium transition-all flex items-center justify-center group">
+                    View Complete Roadmap
+                    <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

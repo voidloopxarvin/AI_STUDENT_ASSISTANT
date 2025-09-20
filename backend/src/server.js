@@ -44,6 +44,7 @@ app.use('/api/planner', require('./routes/planner'));
 app.use('/api/reviewer', require('./routes/reviewer'));
 app.use('/api/roadmaps', require('./routes/roadmaps'));
 // Add this line with your other route imports
+
 app.use('/api/chat', require('./routes/chat'));
 
 // Health check endpoint
