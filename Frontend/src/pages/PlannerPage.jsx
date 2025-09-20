@@ -20,6 +20,7 @@ import {
   X
 } from 'lucide-react';
 import { apiService } from '../services/api';
+import Particles from '../components/Particles';
 
 const PlannerPage = () => {
   const [file, setFile] = useState(null);
@@ -161,7 +162,24 @@ const PlannerPage = () => {
   }, [studyTimer.isRunning, studyTimer.seconds, studyTimer.minutes]);
 
   return (
+
     <div className="min-h-screen bg-gray-900 text-white">
+     {/* Particles Background */}
+    <div className="absolute inset-0 z-0">
+      <Particles
+        particleColors={['#3b82f6', '#8b5cf6', '#ec4899']}
+        particleCount={150}
+        particleSpread={8}
+        speed={0.15}
+        particleBaseSize={80}
+        moveParticlesOnHover={true}
+        alphaParticles={true}
+        disableRotation={false}
+        className="absolute inset-0"
+      />
+    </div>
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-white">
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="text-center mb-8">
@@ -534,6 +552,7 @@ const PlannerPage = () => {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 };
