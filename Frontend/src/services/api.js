@@ -10,16 +10,30 @@ class ApiService {
       ...options,
     };
 
-    if (config.body && typeof config.body !== 'string') {
+    // Don't set Content-Type for FormData
+    if (config.body instanceof FormData) {
+      delete config.headers['Content-Type'];
+    } else if (config.body && typeof config.body !== 'string') {
       config.body = JSON.stringify(config.body);
     }
 
     try {
       const response = await fetch(url, config);
-      const data = await response.json();
+      
+      // Check if response has content before parsing JSON
+      const contentType = response.headers.get('content-type');
+      let data;
+      
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json();
+      } else {
+        // For non-JSON responses (like file downloads)
+        data = await response.text();
+      }
 
       if (!response.ok) {
-        throw new Error(data.error || `HTTP error! status: ${response.status}`);
+        const errorMessage = data.error || data.message || `HTTP error! status: ${response.status}`;
+        throw new Error(errorMessage);
       }
 
       return data;
@@ -36,7 +50,15 @@ class ApiService {
     });
   }
 
-  // Feature methods (for Phase 2)
+  // Study Planner methods
+  async createStudyPlan(formData) {
+    return this.request('/planner/create-plan', {
+      method: 'POST',
+      body: formData,
+    });
+  }
+
+  // Diagram Generator methods
   async generateDiagram(prompt) {
     return this.request('/diagram/generate', {
       method: 'POST',
@@ -44,72 +66,26 @@ class ApiService {
     });
   }
 
-  async createStudyPlan(pdfData, examDate) {
-    return this.request('/planner/create-plan', {
-      method: 'POST',
-      body: { pdfData, examDate },
-    });
-  }
-
-  async reviewCode(code, language) {
+  // Code Reviewer methods
+  async reviewCode(code, language, reviewType = 'comprehensive') {
     return this.request('/reviewer/review', {
       method: 'POST',
-      body: { code, language },
+      body: { code, language, reviewType },
     });
   }
-  // Add these methods to your existing ApiService class
 
-async createStudyPlan(formData) {
-  return this.request('/planner/create-plan', {
-    method: 'POST',
-    body: formData,
-    // Don't set Content-Type header for FormData
-    headers: {}, // This will let browser set the correct Content-Type with boundary
-  });
-}
+  // Roadmaps methods
+  async getRoadmaps() {
+    return this.request('/roadmaps');
+  }
 
-async getStudyProgress(planId) {
-  return this.request(`/planner/progress/${planId}`);
+  // Chat methods - FIX: Use correct endpoint
+  async sendChatMessage(message, sessionId, conversationHistory = []) {
+    return this.request('/chat/message', {
+      method: 'POST',
+      body: { message, sessionId, conversationHistory },
+    });
+  }
 }
-
-async updateStudyProgress(planId, progressData) {
-  return this.request(`/planner/progress/${planId}`, {
-    method: 'POST',
-    body: progressData,
-  });
-}
-  // Add this method to your existing ApiService class
-
-async generateDiagram(prompt) {
-  return this.request('/diagram/generate', {
-    method: 'POST',
-    body: { prompt },
-  });
-}
-
-async getDiagramTemplates() {
-  return this.request('/diagram/templates');
-}
-// Add these methods to your existing ApiService class
-
-async reviewCode(code, language, reviewType = 'comprehensive') {
-  return this.request('/reviewer/review', {
-    method: 'POST',
-    body: { code, language, reviewType },
-  });
-}
-
-async getSupportedLanguages() {
-  return this.request('/reviewer/languages');
-}
-
-async getSuggestedCode(code, language, issueType) {
-  return this.request('/reviewer/suggest', {
-    method: 'POST',
-    body: { code, language, issueType },
-  });
-}
-}
-
 
 export const apiService = new ApiService();

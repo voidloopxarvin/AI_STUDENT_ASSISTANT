@@ -32,6 +32,7 @@ const extractTextFromFile = async (file) => {
       return file.buffer.toString('utf-8');
     }
   } catch (error) {
+    console.error('File extraction error:', error);
     throw new Error('Failed to extract text from file');
   }
 };
@@ -39,20 +40,34 @@ const extractTextFromFile = async (file) => {
 // Generate study plan
 router.post('/create-plan', upload.single('file'), async (req, res) => {
   try {
+    console.log('Received request body:', req.body);
+    console.log('Received file:', req.file ? req.file.originalname : 'No file');
+
     const { examDate, studyHours, difficulty } = req.body;
     const file = req.file;
 
+    // Validation
     if (!file) {
+      console.log('Error: No file provided');
       return res.status(400).json({
         success: false,
-        error: 'File is required'
+        error: 'File is required for study plan generation'
       });
     }
 
-    if (!examDate || !studyHours) {
+    if (!examDate) {
+      console.log('Error: No exam date provided');
       return res.status(400).json({
         success: false,
-        error: 'Exam date and study hours are required'
+        error: 'Exam date is required'
+      });
+    }
+
+    if (!studyHours) {
+      console.log('Error: No study hours provided');
+      return res.status(400).json({
+        success: false,
+        error: 'Daily study hours are required'
       });
     }
 
@@ -62,23 +77,47 @@ router.post('/create-plan', upload.single('file'), async (req, res) => {
     const daysUntilExam = Math.ceil((examDateTime - today) / (1000 * 60 * 60 * 24));
 
     if (daysUntilExam <= 0) {
+      console.log('Error: Invalid exam date');
       return res.status(400).json({
         success: false,
         error: 'Exam date must be in the future'
       });
     }
 
-    // Extract text from uploaded file
-    const fileContent = await extractTextFromFile(file);
+    console.log(`Days until exam: ${daysUntilExam}, Study hours: ${studyHours}, Difficulty: ${difficulty}`);
 
-    const model = getGeminiModel();
+    // Extract text from uploaded file
+    let fileContent;
+    try {
+      fileContent = await extractTextFromFile(file);
+      console.log(`Extracted ${fileContent.length} characters from file`);
+    } catch (extractError) {
+      console.error('File extraction failed:', extractError);
+      return res.status(400).json({
+        success: false,
+        error: 'Failed to process the uploaded file. Please ensure it\'s a valid PDF, DOC, or TXT file.'
+      });
+    }
+
+    // Get Gemini model
+    let model;
+    try {
+      model = getGeminiModel();
+      console.log('Gemini model initialized successfully');
+    } catch (modelError) {
+      console.error('Gemini model initialization failed:', modelError);
+      return res.status(500).json({
+        success: false,
+        error: 'AI service is currently unavailable. Please try again later.'
+      });
+    }
     
     // Enhanced prompt for study plan generation
     const studyPlanPrompt = `
 Based on the following study material content and parameters, create a comprehensive study plan:
 
 STUDY MATERIAL CONTENT:
-${fileContent.substring(0, 2000)}... (truncated for context)
+${fileContent.substring(0, 3000)}${fileContent.length > 3000 ? '...\n(Content truncated for processing)' : ''}
 
 PARAMETERS:
 - Days until exam: ${daysUntilExam}
@@ -86,24 +125,16 @@ PARAMETERS:
 - Difficulty level: ${difficulty}
 - Total available study hours: ${daysUntilExam * studyHours}
 
-Please generate a detailed study plan in JSON format with:
+Please generate a detailed study plan in JSON format with the following structure:
 
-1. Subject breakdown with time allocation percentages
-2. Weekly schedule with focus areas
-3. Daily study recommendations
-4. Key topics to prioritize based on content
-5. Study tips and strategies
-6. Revision schedule for final weeks
-
-Return ONLY valid JSON in this format:
 {
   "subjects": [
     {
       "name": "Subject Name",
       "hours": number,
       "priority": "High/Medium/Low",
-      "topics": ["topic1", "topic2"],
-      "color": "gradient-class"
+      "topics": ["topic1", "topic2", "topic3"],
+      "color": "from-red-500 to-pink-600"
     }
   ],
   "weeklySchedule": [
@@ -115,36 +146,48 @@ Return ONLY valid JSON in this format:
       "goals": ["goal1", "goal2"]
     }
   ],
-  "tips": ["tip1", "tip2", "tip3"],
-  "keyTopics": ["important topic 1", "important topic 2"],
+  "tips": ["study tip 1", "study tip 2", "study tip 3"],
+  "keyTopics": ["important topic 1", "important topic 2", "important topic 3"],
   "revisionSchedule": {
-    "finalWeek": ["activity1", "activity2"],
-    "lastThreeDays": ["activity1", "activity2"]
+    "finalWeek": ["final week activity 1", "final week activity 2"],
+    "lastThreeDays": ["last day activity 1", "last day activity 2"]
   }
 }
+
+Return ONLY valid JSON, no additional text or formatting.
     `;
-
-    const result = await model.generateContent(studyPlanPrompt);
-    const response = await result.response;
-    let planText = response.text().trim();
-
-    // Clean up the response
-    planText = planText.replace(/```json/g, '').replace(/```/g, '').trim();
 
     let studyPlan;
     try {
+      console.log('Generating study plan with Gemini...');
+      const result = await model.generateContent(studyPlanPrompt);
+      const response = await result.response;
+      let planText = response.text().trim();
+      console.log('Received response from Gemini');
+
+      // Clean up the response
+      planText = planText.replace(/```json/g, '').replace(/```/g, '').trim();
+      
+      // Try to parse the JSON
       studyPlan = JSON.parse(planText);
-    } catch (parseError) {
-      // Fallback to a structured plan if parsing fails
-      studyPlan = generateFallbackPlan(daysUntilExam, studyHours, difficulty);
+      console.log('Successfully parsed AI-generated study plan');
+    } catch (aiError) {
+      console.error('AI generation or parsing failed:', aiError);
+      console.log('Falling back to structured plan generation');
+      
+      // Fallback to a structured plan if AI fails
+      studyPlan = generateFallbackPlan(daysUntilExam, parseInt(studyHours), difficulty);
     }
 
     // Add calculated fields
     studyPlan.examDate = examDate;
     studyPlan.daysUntilExam = daysUntilExam;
-    studyPlan.totalHours = daysUntilExam * studyHours;
+    studyPlan.totalHours = daysUntilExam * parseInt(studyHours);
     studyPlan.difficulty = difficulty;
     studyPlan.fileName = file.originalname;
+    studyPlan.createdAt = new Date().toISOString();
+
+    console.log('Study plan generated successfully');
 
     res.json({
       success: true,
@@ -154,11 +197,17 @@ Return ONLY valid JSON in this format:
     });
 
   } catch (error) {
-    console.error('Study plan generation error:', error);
+    console.error('Detailed study plan generation error:', {
+      message: error.message,
+      stack: error.stack,
+      body: req.body,
+      file: req.file ? req.file.originalname : 'No file'
+    });
+    
     res.status(500).json({
       success: false,
       error: 'Failed to generate study plan',
-      details: error.message
+      details: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
     });
   }
 });
@@ -167,27 +216,34 @@ Return ONLY valid JSON in this format:
 const generateFallbackPlan = (days, hoursPerDay, difficulty) => {
   const totalHours = days * hoursPerDay;
   
+  // Adjust time allocation based on difficulty
+  const allocation = difficulty === 'easy' 
+    ? { core: 0.3, practice: 0.4, revision: 0.3 }
+    : difficulty === 'hard'
+    ? { core: 0.5, practice: 0.35, revision: 0.15 }
+    : { core: 0.4, practice: 0.35, revision: 0.25 }; // medium
+  
   return {
     subjects: [
       {
         name: 'Core Concepts',
-        hours: Math.round(totalHours * 0.4),
+        hours: Math.round(totalHours * allocation.core),
         priority: 'High',
-        topics: ['Fundamental theories', 'Key principles', 'Basic concepts'],
+        topics: ['Fundamental theories', 'Key principles', 'Basic concepts', 'Important definitions'],
         color: 'from-red-500 to-pink-600'
       },
       {
         name: 'Practice Problems',
-        hours: Math.round(totalHours * 0.35),
+        hours: Math.round(totalHours * allocation.practice),
         priority: 'High',
-        topics: ['Sample questions', 'Mock tests', 'Problem solving'],
+        topics: ['Sample questions', 'Mock tests', 'Problem solving', 'Previous year papers'],
         color: 'from-blue-500 to-cyan-600'
       },
       {
         name: 'Review & Revision',
-        hours: Math.round(totalHours * 0.25),
+        hours: Math.round(totalHours * allocation.revision),
         priority: 'Medium',
-        topics: ['Summary notes', 'Quick review', 'Final preparation'],
+        topics: ['Summary notes', 'Quick review', 'Final preparation', 'Weak area focus'],
         color: 'from-green-500 to-emerald-600'
       }
     ],
@@ -195,16 +251,27 @@ const generateFallbackPlan = (days, hoursPerDay, difficulty) => {
     tips: [
       'Start with the most challenging topics when your mind is fresh',
       'Use active recall techniques instead of passive reading',
-      'Take regular breaks using the Pomodoro technique',
-      'Create summary notes for quick revision',
-      'Practice with mock tests regularly',
-      'Review previously studied material daily',
-      'Stay consistent with your study schedule'
+      'Take regular breaks using the Pomodoro technique (25min work, 5min break)',
+      'Create summary notes and mind maps for quick revision',
+      'Practice with mock tests regularly to identify weak areas',
+      'Review previously studied material daily to reinforce learning',
+      'Stay consistent with your study schedule and track progress',
+      `Focus extra time on ${difficulty} difficulty concepts`
     ],
-    keyTopics: ['Main subject areas', 'Important formulas', 'Critical concepts'],
+    keyTopics: ['Main subject areas from your material', 'Important formulas and equations', 'Critical concepts for exam', 'Common question patterns'],
     revisionSchedule: {
-      finalWeek: ['Complete mock tests', 'Review summary notes', 'Focus on weak areas'],
-      lastThreeDays: ['Light revision only', 'Relax and stay confident', 'Quick formula review']
+      finalWeek: [
+        'Complete comprehensive mock tests',
+        'Review all summary notes and flashcards',
+        'Focus intensively on identified weak areas',
+        'Practice time management with timed tests'
+      ],
+      lastThreeDays: [
+        'Light revision only - avoid learning new concepts',
+        'Quick review of formulas and key points',
+        'Relax and maintain confidence',
+        'Get adequate sleep and stay healthy'
+      ]
     }
   };
 };
@@ -215,22 +282,50 @@ const generateWeeklySchedule = (days, hoursPerDay) => {
   const schedule = [];
   
   for (let week = 1; week <= weeks; week++) {
-    const focusArea = week <= weeks * 0.6 ? 'Learning' : 
-                     week <= weeks * 0.8 ? 'Practice' : 'Revision';
+    const progressRatio = week / weeks;
+    let focusArea, topics, goals;
+    
+    if (progressRatio <= 0.6) {
+      focusArea = 'Learning';
+      topics = [
+        `Week ${week} - New concept introduction`,
+        `Week ${week} - Theory and fundamentals`,
+        `Week ${week} - Basic practice problems`
+      ];
+      goals = [
+        'Master new concepts and theories',
+        'Build strong foundation understanding'
+      ];
+    } else if (progressRatio <= 0.8) {
+      focusArea = 'Practice';
+      topics = [
+        `Week ${week} - Advanced problem solving`,
+        `Week ${week} - Mock tests and assessments`,
+        `Week ${week} - Application of concepts`
+      ];
+      goals = [
+        'Apply learned concepts to problems',
+        'Identify and work on weak areas'
+      ];
+    } else {
+      focusArea = 'Revision';
+      topics = [
+        `Week ${week} - Comprehensive review`,
+        `Week ${week} - Final mock tests`,
+        `Week ${week} - Exam strategy preparation`
+      ];
+      goals = [
+        'Consolidate all learning',
+        'Perfect exam technique and timing'
+      ];
+    }
     
     schedule.push({
       week: week,
       focus: focusArea,
       dailyHours: hoursPerDay,
-      topics: [
-        `Week ${week} - ${focusArea} Session 1`,
-        `Week ${week} - ${focusArea} Session 2`,
-        `Week ${week} - Review & Practice`
-      ],
-      goals: [
-        `Complete ${focusArea.toLowerCase()} objectives`,
-        'Track progress and adjust if needed'
-      ]
+      topics: topics,
+      goals: goals
     });
   }
   
@@ -239,30 +334,47 @@ const generateWeeklySchedule = (days, hoursPerDay) => {
 
 // Get study progress (for future use)
 router.get('/progress/:planId', (req, res) => {
-  // This would retrieve saved progress from database
+  const { planId } = req.params;
+  
+  // Mock progress data - in production, this would come from a database
+  const mockProgress = {
+    planId: planId,
+    completedHours: 0,
+    completedTopics: [],
+    currentWeek: 1,
+    overallProgress: 0,
+    lastStudySession: null,
+    streak: 0
+  };
+  
   res.json({
     success: true,
     message: 'Progress tracking ready for implementation',
-    progress: {
-      completedHours: 0,
-      completedTopics: [],
-      currentWeek: 1
-    }
+    progress: mockProgress
   });
 });
 
 // Update study progress
 router.post('/progress/:planId', (req, res) => {
-  // This would save progress to database
-  const { completedHours, completedTopics, currentWeek } = req.body;
+  const { planId } = req.params;
+  const { completedHours, completedTopics, currentWeek, studySession } = req.body;
+  
+  // In production, this would save to database
+  console.log(`Progress update for plan ${planId}:`, {
+    completedHours,
+    completedTopics,
+    currentWeek,
+    studySession
+  });
   
   res.json({
     success: true,
     message: 'Progress updated successfully',
     updatedProgress: {
-      completedHours,
-      completedTopics,
-      currentWeek
+      completedHours: completedHours || 0,
+      completedTopics: completedTopics || [],
+      currentWeek: currentWeek || 1,
+      lastUpdate: new Date().toISOString()
     }
   });
 });
