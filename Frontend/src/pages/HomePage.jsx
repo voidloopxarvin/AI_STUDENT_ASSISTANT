@@ -6,9 +6,9 @@ import Particles from '../components/Particles';
 
 const HomePage = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-800 to-black relative overflow-hidden">
+    <div className="min-h-screen bg-black relative overflow-hidden">
       {/* Particles Background */}
-      <div className="absolute inset-0 z-0">
+      <div className="fixed inset-0 z-0">
         <Particles
           particleColors={['#3b82f6', '#8b5cf6', '#ec4899']}
           particleCount={200}
@@ -18,7 +18,7 @@ const HomePage = () => {
           moveParticlesOnHover={true}
           alphaParticles={true}
           disableRotation={false}
-          className="absolute inset-0"
+          className="w-full h-full"
         />
       </div>
 
@@ -27,13 +27,13 @@ const HomePage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
           {/* Hero Section */}
           <div className="text-center mb-16">
-            <div className="inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-6 backdrop-blur-sm bg-opacity-80">
+            <div className="inline-flex items-center bg-blue-900/30 text-blue-300 px-4 py-2 rounded-full text-sm font-medium mb-6 backdrop-blur-sm border border-blue-400/30">
               <Star className="h-4 w-4 mr-2" />
               Your AI-Powered Learning Companion
             </div>
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
               AI Student
-              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-400 to-blue-200 bg-clip-text text-transparent">
                 {' '}Assistant
               </span>
             </h1>
@@ -44,13 +44,13 @@ const HomePage = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/diagram"
-                className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
               >
                 Start Creating Diagrams
               </Link>
               <Link
                 to="/planner"
-                className="bg-white text-gray-700 px-8 py-3 rounded-lg font-semibold border-2 border-gray-200 hover:border-blue-300 hover:text-blue-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                className="bg-white text-black px-8 py-3 rounded-lg font-semibold border-2 border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
               >
                 Plan Your Studies
               </Link>
@@ -71,28 +71,28 @@ const HomePage = () => {
               title="Study Planner"
               description="Upload PDFs and get personalized study schedules for your exams"
               link="/planner"
-              color="green"
+              color="blue"
             />
             <FeatureCard
               icon={Code}
               title="Code Reviewer"
               description="Get instant AI-powered code reviews and improvement suggestions"
               link="/reviewer"
-              color="purple"
+              color="blue"
             />
             <FeatureCard
               icon={Map}
               title="Learning Roadmaps"
               description="Follow structured paths for AI, ML, cybersecurity, and more"
               link="/roadmaps"
-              color="indigo"
+              color="blue"
             />
             <FeatureCard
               icon={MessageCircle}
               title="AI Chat Assistant"
               description="Get instant help and answers to all your academic questions"
               link="/chat"
-              color="pink"
+              color="blue"
             />
             <FeatureCard
               icon={Github}

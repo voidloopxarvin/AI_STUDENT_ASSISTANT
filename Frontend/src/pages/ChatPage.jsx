@@ -17,6 +17,7 @@ import {
   Clock
 } from 'lucide-react';
 import { apiService } from '../services/api';
+import Particles from '../components/Particles';
 
 const ChatPage = () => {
   const [messages, setMessages] = useState([
@@ -236,200 +237,218 @@ const simulateAIResponse = async (userInput) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col">
-      {/* Header */}
-      <div className="bg-gray-800 border-b border-gray-700 p-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg">
-              <MessageCircle className="h-6 w-6 text-white" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-white">AI Study Assistant</h1>
-              <p className="text-sm text-gray-400">
-                {isLoading ? 'Thinking...' : 'Ready to help with your studies'}
-              </p>
-            </div>
-          </div>
-          
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={() => setSpeechEnabled(!speechEnabled)}
-              className={`p-2 rounded-lg transition-colors ${
-                speechEnabled ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-400'
-              }`}
-              title="Toggle text-to-speech"
-            >
-              {speechEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
-            </button>
-            <button
-              onClick={exportChat}
-              className="p-2 bg-gray-700 text-gray-400 rounded-lg hover:bg-gray-600 transition-colors"
-              title="Export chat"
-            >
-              <Download className="h-4 w-4" />
-            </button>
-            <button
-              onClick={clearChat}
-              className="p-2 bg-gray-700 text-gray-400 rounded-lg hover:bg-red-600 hover:text-white transition-colors"
-              title="Clear chat"
-            >
-              <Trash2 className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Particles Background */}
+      <div className="fixed inset-0 z-0">
+        <Particles
+          particleColors={['#3b82f6', '#8b5cf6', '#ec4899']}
+          particleCount={150}
+          particleSpread={8}
+          speed={0.15}
+          particleBaseSize={80}
+          moveParticlesOnHover={true}
+          alphaParticles={true}
+          disableRotation={false}
+          className="w-full h-full"
+        />
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4">
-        <div className="max-w-4xl mx-auto space-y-6">
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex items-start space-x-3 ${
-                message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''
-              }`}
-            >
-              {/* Avatar */}
-              <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                  message.type === 'user'
-                    ? 'bg-gradient-to-r from-green-500 to-emerald-600'
-                    : message.isError
-                    ? 'bg-gradient-to-r from-red-500 to-red-600'
-                    : 'bg-gradient-to-r from-blue-600 to-purple-600'
-                }`}
-              >
-                {message.type === 'user' ? (
-                  <User className="h-4 w-4 text-white" />
-                ) : (
-                  <Bot className="h-4 w-4 text-white" />
-                )}
+      {/* Content */}
+      <div className="relative z-10 flex flex-col min-h-screen">
+        {/* Header */}
+        <div className="bg-gray-900/80 backdrop-blur-md border-b border-gray-700 p-4">
+          <div className="max-w-6xl mx-auto flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="bg-blue-600 p-2 rounded-lg">
+                <MessageCircle className="h-6 w-6 text-white" />
               </div>
-
-              {/* Message Content */}
-              <div
-                className={`max-w-3xl ${
-                  message.type === 'user' ? 'text-right' : 'text-left'
-                }`}
-              >
-                <div
-                  className={`rounded-xl p-4 ${
-                    message.type === 'user'
-                      ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white'
-                      : message.isError
-                      ? 'bg-red-900/50 border border-red-500/50 text-red-300'
-                      : 'bg-gray-800 border border-gray-700 text-white'
-                  }`}
-                >
-                  <p className="whitespace-pre-wrap leading-relaxed">
-                    {message.content}
-                  </p>
-                </div>
-
-                {/* Message Footer */}
-                <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
-                  <div className="flex items-center space-x-2">
-                    <Clock className="h-3 w-3" />
-                    <span>{message.timestamp.toLocaleTimeString()}</span>
-                  </div>
-
-                  {message.type === 'bot' && !message.isError && (
-                    <div className="flex items-center space-x-2">
-                      <button
-                        onClick={() => copyToClipboard(message.content)}
-                        className="p-1 hover:bg-gray-700 rounded transition-colors"
-                        title="Copy message"
-                      >
-                        <Copy className="h-3 w-3" />
-                      </button>
-                      <div className="flex items-center space-x-1">
-                        <button
-                          onClick={() => handleReaction(message.id, 'likes')}
-                          className="p-1 hover:bg-gray-700 rounded transition-colors flex items-center space-x-1"
-                          title="Like"
-                        >
-                          <ThumbsUp className="h-3 w-3" />
-                          {message.likes > 0 && <span>{message.likes}</span>}
-                        </button>
-                        <button
-                          onClick={() => handleReaction(message.id, 'dislikes')}
-                          className="p-1 hover:bg-gray-700 rounded transition-colors flex items-center space-x-1"
-                          title="Dislike"
-                        >
-                          <ThumbsDown className="h-3 w-3" />
-                          {message.dislikes > 0 && <span>{message.dislikes}</span>}
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
+              <div>
+                <h1 className="text-xl font-bold text-white">AI Study Assistant</h1>
+                <p className="text-sm text-gray-400">
+                  {isLoading ? 'Thinking...' : 'Ready to help with your studies'}
+                </p>
               </div>
             </div>
-          ))}
-
-          {/* Loading Indicator */}
-          {isLoading && (
-            <div className="flex items-start space-x-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center">
-                <Bot className="h-4 w-4 text-white" />
-              </div>
-              <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
-                <div className="flex items-center space-x-2">
-                  <Sparkles className="h-4 w-4 text-blue-400 animate-pulse" />
-                  <span className="text-gray-400">AI is thinking...</span>
-                </div>
-              </div>
-            </div>
-          )}
-          
-          <div ref={messagesEndRef} />
-        </div>
-      </div>
-
-      {/* Input Area */}
-      <div className="bg-gray-800 border-t border-gray-700 p-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-end space-x-3">
-            <div className="flex-1 relative">
-              <textarea
-                ref={inputRef}
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Ask me anything about your studies..."
-                className="w-full bg-gray-700 border border-gray-600 rounded-xl px-4 py-3 pr-12 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none max-h-32"
-                rows="1"
-                disabled={isLoading}
-              />
-              
-              {/* Voice Input Button */}
+            
+            <div className="flex items-center space-x-2">
               <button
-                onClick={toggleVoiceInput}
-                className={`absolute right-3 top-3 p-1 rounded-lg transition-colors ${
-                  isListening
-                    ? 'bg-red-600 text-white animate-pulse'
-                    : 'text-gray-400 hover:text-white hover:bg-gray-600'
+                onClick={() => setSpeechEnabled(!speechEnabled)}
+                className={`p-2 rounded-lg transition-colors ${
+                  speechEnabled ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-400'
                 }`}
-                title={isListening ? 'Stop listening' : 'Start voice input'}
-                disabled={isLoading}
+                title="Toggle text-to-speech"
               >
-                {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                {speechEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
+              </button>
+              <button
+                onClick={exportChat}
+                className="p-2 bg-gray-700 text-gray-400 rounded-lg hover:bg-gray-600 transition-colors"
+                title="Export chat"
+              >
+                <Download className="h-4 w-4" />
+              </button>
+              <button
+                onClick={clearChat}
+                className="p-2 bg-gray-700 text-gray-400 rounded-lg hover:bg-gray-600 hover:text-white transition-colors"
+                title="Clear chat"
+              >
+                <Trash2 className="h-4 w-4" />
               </button>
             </div>
-
-            {/* Send Button */}
-            <button
-              onClick={handleSendMessage}
-              disabled={!inputText.trim() || isLoading}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-3 rounded-xl hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center"
-            >
-              <Send className="h-5 w-5" />
-            </button>
           </div>
-          
-          <div className="mt-2 text-xs text-gray-500 text-center">
-            Press Enter to send, Shift+Enter for new line
+        </div>
+
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto p-4">
+          <div className="max-w-4xl mx-auto space-y-6">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`flex items-start space-x-3 ${
+                  message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''
+                }`}
+              >
+                {/* Avatar */}
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                    message.type === 'user'
+                      ? 'bg-white'
+                      : message.isError
+                      ? 'bg-gray-600'
+                      : 'bg-blue-600'
+                  }`}
+                >
+                  {message.type === 'user' ? (
+                    <User className="h-4 w-4 text-black" />
+                  ) : (
+                    <Bot className="h-4 w-4 text-white" />
+                  )}
+                </div>
+
+                {/* Message Content */}
+                <div
+                  className={`max-w-3xl ${
+                    message.type === 'user' ? 'text-right' : 'text-left'
+                  }`}
+                >
+                  <div
+                    className={`rounded-xl p-4 ${
+                      message.type === 'user'
+                        ? 'bg-white text-black'
+                        : message.isError
+                        ? 'bg-gray-800/80 border border-gray-600 text-gray-300'
+                        : 'bg-gray-800/80 backdrop-blur-md border border-gray-700 text-white'
+                    }`}
+                  >
+                    <p className="whitespace-pre-wrap leading-relaxed">
+                      {message.content}
+                    </p>
+                  </div>
+
+                  {/* Message Footer */}
+                  <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
+                    <div className="flex items-center space-x-2">
+                      <Clock className="h-3 w-3" />
+                      <span>{message.timestamp.toLocaleTimeString()}</span>
+                    </div>
+
+                    {message.type === 'bot' && !message.isError && (
+                      <div className="flex items-center space-x-2">
+                        <button
+                          onClick={() => copyToClipboard(message.content)}
+                          className="p-1 hover:bg-gray-700 rounded transition-colors"
+                          title="Copy message"
+                        >
+                          <Copy className="h-3 w-3" />
+                        </button>
+                        <div className="flex items-center space-x-1">
+                          <button
+                            onClick={() => handleReaction(message.id, 'likes')}
+                            className="p-1 hover:bg-gray-700 rounded transition-colors flex items-center space-x-1"
+                            title="Like"
+                          >
+                            <ThumbsUp className="h-3 w-3" />
+                            {message.likes > 0 && <span>{message.likes}</span>}
+                          </button>
+                          <button
+                            onClick={() => handleReaction(message.id, 'dislikes')}
+                            className="p-1 hover:bg-gray-700 rounded transition-colors flex items-center space-x-1"
+                            title="Dislike"
+                          >
+                            <ThumbsDown className="h-3 w-3" />
+                            {message.dislikes > 0 && <span>{message.dislikes}</span>}
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {/* Loading Indicator */}
+            {isLoading && (
+              <div className="flex items-start space-x-3">
+                <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
+                  <Bot className="h-4 w-4 text-white" />
+                </div>
+                <div className="bg-gray-800/80 backdrop-blur-md border border-gray-700 rounded-xl p-4">
+                  <div className="flex items-center space-x-2">
+                    <Sparkles className="h-4 w-4 text-blue-400 animate-pulse" />
+                    <span className="text-gray-400">AI is thinking...</span>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            <div ref={messagesEndRef} />
+          </div>
+        </div>
+
+        {/* Input Area */}
+        <div className="bg-gray-900/80 backdrop-blur-md border-t border-gray-700 p-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-end space-x-3">
+              <div className="flex-1 relative">
+                <textarea
+                  ref={inputRef}
+                  value={inputText}
+                  onChange={(e) => setInputText(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Ask me anything about your studies..."
+                  className="w-full bg-gray-700/80 backdrop-blur-md border border-gray-600 rounded-xl px-4 py-3 pr-12 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none max-h-32"
+                  rows="1"
+                  disabled={isLoading}
+                />
+                
+                {/* Voice Input Button */}
+                <button
+                  onClick={toggleVoiceInput}
+                  className={`absolute right-3 top-3 p-1 rounded-lg transition-colors ${
+                    isListening
+                      ? 'bg-gray-600 text-white animate-pulse'
+                      : 'text-gray-400 hover:text-white hover:bg-gray-600'
+                  }`}
+                  title={isListening ? 'Stop listening' : 'Start voice input'}
+                  disabled={isLoading}
+                >
+                  {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                </button>
+              </div>
+
+              {/* Send Button */}
+              <button
+                onClick={handleSendMessage}
+                disabled={!inputText.trim() || isLoading}
+                className="bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center"
+              >
+                <Send className="h-5 w-5" />
+              </button>
+            </div>
+            
+            <div className="mt-2 text-xs text-gray-500 text-center">
+              Press Enter to send, Shift+Enter for new line
+            </div>
           </div>
         </div>
       </div>
