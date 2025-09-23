@@ -2,10 +2,18 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Create uploads directory if it doesn't exist
+const fs = require('fs');
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
 
 // Enhanced CORS configuration
 const corsOptions = {
@@ -43,9 +51,10 @@ app.use('/api/diagram', require('./routes/diagram'));
 app.use('/api/planner', require('./routes/planner'));
 app.use('/api/reviewer', require('./routes/reviewer'));
 app.use('/api/roadmaps', require('./routes/roadmaps'));
-// Add this line with your other route imports
-
 app.use('/api/chat', require('./routes/chat'));
+
+// ADD THIS LINE - This was missing!
+app.use('/api/notes', require('./routes/notes'));
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -68,7 +77,9 @@ app.get('/', (req, res) => {
       '/api/planner/create-plan',
       '/api/diagram/generate',
       '/api/reviewer/review',
-      '/api/roadmaps'
+      '/api/roadmaps',
+      '/api/notes/process',
+      '/api/notes/process-text'
     ]
   });
 });
@@ -79,7 +90,17 @@ app.use('/api', (req, res) => {
     success: false,
     error: 'API endpoint not found',
     path: req.path,
-    method: req.method
+    method: req.method,
+    availableEndpoints: [
+      '/api/health',
+      '/api/gemini/test',
+      '/api/planner/create-plan',
+      '/api/diagram/generate',
+      '/api/reviewer/review',
+      '/api/roadmaps',
+      '/api/notes/process',
+      '/api/notes/process-text'
+    ]
   });
 });
 
@@ -160,4 +181,5 @@ app.listen(PORT, () => {
   console.log(`📱 Health check: http://localhost:${PORT}/api/health`);
   console.log(`🔧 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🤖 Gemini API: ${process.env.GEMINI_API_KEY ? 'Configured' : 'NOT CONFIGURED'}`);
+  console.log(`📁 Uploads directory: ${uploadsDir}`);
 });
