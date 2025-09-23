@@ -95,6 +95,13 @@ const HomePage = () => {
               color="blue"
             />
             <FeatureCard
+              icon={MessageCircle}
+              title="AI Chat Assistant"
+              description="Get instant help and answers to all your academic questions"
+              link="/notes"
+              color="blue"
+            />
+            <FeatureCard
               icon={Github}
               title="Open Source"
               description="Built with modern tech stack: React, Tailwind, and Gemini AI"

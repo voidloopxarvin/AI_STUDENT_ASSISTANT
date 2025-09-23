@@ -7,6 +7,7 @@ import PlannerPage from './pages/PlannerPage';
 import ReviewerPage from './pages/ReviewerPage';
 import RoadmapsPage from './pages/RoadmapsPage';
 import ChatPage from './pages/ChatPage';
+import NotesPage from './pages/NotesPage';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/reviewer" element={<ReviewerPage />} />
           <Route path="/roadmaps" element={<RoadmapsPage />} />
           <Route path="/chat" element={<ChatPage />} />
+          <Route path="/notes" element={<NotesPage />} />
         </Routes>
       </div>
     </Router>
