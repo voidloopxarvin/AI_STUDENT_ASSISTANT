@@ -77,3 +77,28 @@ Ideal for debugging, concept help, or project brainstorming.
 ## 🛠️ Technology Stack
 
 ### Project Structure
+```
+AI_STUDENT_ASSISTANT/
+│
+├── backend/ # Node.js Backend
+│ ├── src/
+│ ├── .env
+│ ├── package.json
+│ └── server.js
+│
+├── Frontend/ # React Frontend (Vite + Tailwind)
+│ ├── src/
+│ │ ├── assets/
+│ │ ├── components/
+│ │ ├── data/
+│ │ ├── hooks/
+│ │ ├── pages/
+│ │ ├── App.jsx
+│ │ └── main.jsx
+│ │
+│ ├── index.html
+│ ├── package.json
+│ └── vite.config.js
+│
+└── README.md
+```
