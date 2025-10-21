@@ -1,181 +1,79 @@
-# WISEMATE--AI Student Assistant
+<div align="center">
 
-A comprehensive AI-powered learning platform that helps students with diagram generation, study planning, code review, career roadmaps, and interactive assistance.
+# 🧠 WISEMATE – AI Student Assistant
 
-## Features
+### An AI-driven productivity and learning companion for students
 
-### 🧠 Smart Diagram Generator
-- **AI-Powered Creation**: Generate Mermaid diagrams from natural language descriptions
-- **Multiple Templates**: Quick-start templates for flowcharts, sequence diagrams, and class diagrams
-- **Real-time Preview**: Live rendering with syntax highlighting and error detection
-- **Export Options**: Download diagrams as SVG, PNG, or PDF formats
-- **Interactive Editor**: Manual code editing with auto-completion
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
+[![Gemini AI](https://img.shields.io/badge/Google_Gemini-AI_Powered-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
+[![Vite](https://img.shields.io/badge/Vite-5.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.0-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Mermaid](https://img.shields.io/badge/Mermaid-Diagrams-FF3670?style=for-the-badge&logo=mermaid&logoColor=white)](https://mermaid.js.org/)
 
-### 📚 Intelligent Study Planner
-- **PDF Analysis**: Upload study materials for AI-powered content analysis
-- **Personalized Schedules**: Generate custom study plans based on exam dates and available time
-- **Difficulty Assessment**: Adaptive planning based on subject complexity
-- **Progress Tracking**: Visual progress indicators and milestone tracking
-- **Pomodoro Timer**: Built-in study timer with break reminders
+[Features](#-features) • [Demo](#-demo) • [Installation](#-installation) • [Screenshots](#-screenshots) • [Tech Stack](#-tech-stack)
 
-### 🔍 AI Code Reviewer
-- **Multi-Language Support**: JavaScript, Python, Java, React JSX, and more
-- **Comprehensive Analysis**: Security, performance, style, and best practices review
-- **Detailed Feedback**: Line-by-line suggestions with severity ratings
-- **Code Quality Metrics**: Overall scoring and improvement recommendations
-- **Real-time Results**: Instant analysis with actionable insights
+<img width="1307" height="1059" alt="image" src="https://github.com/user-attachments/assets/0131a254-96fc-43a2-a76f-88190a41c0a4" />
 
-### 🗺️ Career Roadmaps
-- **Industry-Standard Paths**: Curated learning roadmaps for various tech careers
-- **Skill Prerequisites**: Clear requirements and preparation guidelines
-- **Salary Information**: Market rates for entry, mid-level, and senior positions
-- **Job Market Insights**: Relevant job titles and career progression paths
-- **Interactive Timeline**: Step-by-step learning progression
-
-### 💬 AI Chat Assistant
-- **Contextual Help**: Intelligent responses to academic questions
-- **Voice Integration**: Speech-to-text input and text-to-speech output
-- **Conversation History**: Persistent chat sessions with export functionality
-- **Multi-Modal Support**: Text, voice, and document-based interactions
-- **Learning Support**: Homework help, concept explanations, and study guidance
-
-## Technology Stack
-
-- **Frontend**: React 18, Tailwind CSS, Lucide Icons
-- **Routing**: React Router DOM
-- **AI Integration**: Google Gemini API
-- **Diagram Rendering**: Mermaid.js
-- **Animation**: Custom particle system
-- **Build Tool**: Vite
-- **Styling**: Modern CSS with backdrop blur effects
-
-## Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/ai-student-assistant.git
-cd ai-student-assistant
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Set up environment variables:
-```bash
-cp .env.example .env
-# Add your API keys and configuration
-```
-
-4. Start the development server:
-```bash
-npm run dev
-```
-
-## Environment Variables
-
-```env
-VITE_GEMINI_API_KEY=your_gemini_api_key_here
-VITE_API_BASE_URL=http://localhost:3001
-```
-
-## API Integration
-
-The application integrates with various AI services:
-
-- **Google Gemini**: Primary AI engine for chat, analysis, and content generation
-- **Mermaid**: Diagram rendering and syntax validation
-- **Speech APIs**: Browser-native speech recognition and synthesis
-
-## Project Structure
-
-```
-src/
-├── components/          # Reusable UI components
-│   ├── FeatureCard.jsx
-│   ├── Navbar.jsx
-│   └── Particles.jsx
-├── pages/              # Main application pages
-│   ├── HomePage.jsx
-│   ├── DiagramPage.jsx
-│   ├── PlannerPage.jsx
-│   ├── ReviewerPage.jsx
-│   ├── RoadmapsPage.jsx
-│   └── ChatPage.jsx
-├── services/           # API service layer
-│   └── api.js
-├── data/              # Static data and configurations
-│   └── roadmaps-data.json
-└── styles/            # Global styles and themes
-```
-
-## Features in Detail
-
-### Diagram Generation
-- Natural language to Mermaid code conversion
-- Support for flowcharts, sequence diagrams, class diagrams
-- Real-time syntax validation and error handling
-- Export capabilities for various formats
-
-### Study Planning
-- PDF content extraction and analysis
-- Intelligent time allocation based on content difficulty
-- Adaptive scheduling with exam date optimization
-- Subject priority ranking and hour distribution
-
-### Code Review
-- Static code analysis across multiple programming languages
-- Security vulnerability detection
-- Performance optimization suggestions
-- Code style and best practices enforcement
-
-### Learning Roadmaps
-- Pre-built career paths for software development, data science, cybersecurity
-- Skill progression tracking with checkpoints
-- Industry salary data and job market insights
-- Prerequisite mapping and learning outcomes
-
-## Design System
-
-The application uses a minimalist black, blue, and white color scheme:
-- **Primary**: Blue (#3b82f6) for actions and highlights
-- **Background**: Black (#000000) for main areas
-- **Text**: White (#ffffff) and gray variants for content
-- **Interactive Elements**: Hover effects with subtle animations
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## Performance Optimization
-
-- Lazy loading for heavy components
-- Debounced API calls to prevent rate limiting
-- Memoized components for efficient re-renders
-- Optimized particle system for smooth animations
-
-## Browser Support
-
-- Chrome 88+
-- Firefox 85+
-- Safari 14+
-- Edge 88+
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Google Gemini for AI capabilities
-- Mermaid.js for diagram rendering
-- Tailwind CSS for utility-first styling
-- React community for excellent tooling
+</div>
 
 ---
 
+## 📌 About WiseMate
+
+**WiseMate** helps students manage learning, planning, and productivity in one unified platform.  
+It combines study tools, AI assistance, and task management — all built for focus and simplicity.
+
+### 🎯 Highlights
+
+- 5-in-1 AI-powered dashboard  
+- Visual study and career roadmaps  
+- Smart code review and learning support  
+- Simple planner with focus tools  
+
+---
+
+## ✨ Features
+
+### 🧠 Diagram Generator
+<img width="1301" height="1050" alt="image" src="https://github.com/user-attachments/assets/d15491cb-02a2-47d4-9435-9192ac338f10" />
+
+Generate clean, visual **Mermaid diagrams** from plain text or system prompts.  
+Useful for architecture flows, algorithms, or study visuals.
+
+---
+
+### 📚 Study Planner
+<img width="1322" height="1056" alt="image" src="https://github.com/user-attachments/assets/c75a06ca-720c-4ccf-bca2-13c7482befa8" />
+
+AI-assisted planner that builds a study schedule based on subjects and deadlines.  
+Includes progress tracking and Pomodoro focus sessions.
+
+---
+
+### 🔍 Code Reviewer
+<img width="1336" height="1038" alt="image" src="https://github.com/user-attachments/assets/b3a401d4-76ec-438e-b175-b9e7383091f2" />
+
+Reviews your code for structure, readability, and performance using AI.  
+Supports JavaScript, Python, and React code.
+
+---
+
+### 🗺️ Career Roadmaps
+<img width="1438" height="1062" alt="image" src="https://github.com/user-attachments/assets/219f4774-af79-49bd-b352-9191ce026d4e" />
+
+Explore curated learning paths for various tech roles — from web dev to data science.  
+Each roadmap is structured step-by-step for guided learning.
+
+---
+
+### 💬 AI Chat Assistant
+<img width="1396" height="1045" alt="image" src="https://github.com/user-attachments/assets/3dad1377-b882-4cdc-9a04-1cc8bb347202" />
+
+Ask coding or study-related questions and get concise AI-powered explanations.  
+Ideal for debugging, concept help, or project brainstorming.
+
+---
+
+## 🛠️ Technology Stack
+
+### Project Structure
