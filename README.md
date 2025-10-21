@@ -1,4 +1,4 @@
-# AI Student Assistant
+# WISEMATE--AI Student Assistant
 
 A comprehensive AI-powered learning platform that helps students with diagram generation, study planning, code review, career roadmaps, and interactive assistance.
 
